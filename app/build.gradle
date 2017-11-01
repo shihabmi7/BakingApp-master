@@ -1,0 +1,144 @@
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:3.0.0'
+  }
+}
+
+apply plugin: 'com.android.application'
+
+
+android {
+  compileSdkVersion rootProject.ext.androidCompileSdkVersion
+  buildToolsVersion rootProject.ext.androidBuildToolsVersion
+
+  defaultConfig {
+    applicationId "com.sedsoftware.bakingapp"
+    minSdkVersion rootProject.ext.androidMinSdkVersion
+    targetSdkVersion rootProject.ext.androidTargetSdkVersion
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    javaCompileOptions {
+      annotationProcessorOptions {
+        includeCompileClasspath false
+      }
+    }
+
+  }
+
+  compileOptions {
+    targetCompatibility 1.8
+    sourceCompatibility 1.8
+  }
+
+  packagingOptions {
+    exclude 'META-INF/rxjava.properties'
+  }
+  buildToolsVersion '26.0.2'
+
+}
+
+dependencies {
+
+  // Testing
+  def junit = rootProject.ext.junitDependency
+  def espresso = rootProject.ext.espressoDependency
+  def espressoExclude = rootProject.ext.espressoExcludeGroups
+  def espressoContrib = rootProject.ext.espressoContribDependency
+  def espressoIntents = rootProject.ext.espressoIntentsDependency
+  def espressoIdlingResource = rootProject.ext.espressoIdlingResDependency
+
+  // Lib definitions
+  def supportLib = rootProject.ext.supportDependencies
+  def rx = rootProject.ext.rxDependencies
+  def dagger = rootProject.ext.daggerDependencies
+  def retrofit = rootProject.ext.retrofitDependencies
+  def okhttp = rootProject.ext.okhttpDependency
+  def gson = rootProject.ext.gsonDependency
+  def butterKnife = rootProject.ext.butterKnifeDependencies
+  def autoValue = rootProject.ext.autoValueDependencies
+  def sqlBrite = rootProject.ext.sqlBriteDependency
+  def timber = rootProject.ext.timberDependency
+  def glide = rootProject.ext.glideDependency
+  def stetho = rootProject.ext.stethoDependencies
+  def materialValues = rootProject.ext.materialValuesDependency
+  def leakCanary = rootProject.ext.leakCanaryDependency
+  def exoPlayer = rootProject.ext.exoPlayerDependency
+
+  // Testing
+  testCompile junit
+
+  androidTestCompile(espresso, {
+    exclude group: espressoExclude.group1, module: espressoExclude.module1
+    exclude group: espressoExclude.group2, module: espressoExclude.module2
+    exclude group: espressoExclude.group3, module: espressoExclude.module3
+    exclude group: espressoExclude.group4, module: espressoExclude.module4
+    exclude group: espressoExclude.group5, module: espressoExclude.module5
+  })
+
+  androidTestCompile(espressoContrib, {
+    exclude group: espressoExclude.group1, module: espressoExclude.module1
+    exclude group: espressoExclude.group2, module: espressoExclude.module2
+    exclude group: espressoExclude.group3, module: espressoExclude.module3
+    exclude group: espressoExclude.group4, module: espressoExclude.module4
+    exclude group: espressoExclude.group5, module: espressoExclude.module5
+  })
+
+  androidTestCompile(espressoIntents, {
+    exclude group: espressoExclude.group1, module: espressoExclude.module1
+  })
+
+  compile espressoIdlingResource
+
+  // Support Libraries
+  compile supportLib.appCompat
+  compile supportLib.cardView
+  compile supportLib.design
+  compile supportLib.recyclerView
+  compile supportLib.constraintLayout
+
+  // Rx
+  compile rx.rxAndroid
+  compile rx.rxJava
+  compile rx.rxJavaInterop
+
+  // Dagger
+  compile dagger.dagger
+  annotationProcessor dagger.daggerApt
+
+  // Retrofit
+  compile retrofit.retrofit
+  compile retrofit.rxJavaAdapter
+  compile retrofit.gsonConverter
+
+  // ButterKnife
+  compile butterKnife.butterknife
+  annotationProcessor butterKnife.butterknifeApt
+
+  // AutoValue
+  annotationProcessor autoValue.autoValueApt
+  provided autoValue.autoValueProvided
+  annotationProcessor autoValue.gsonApt
+  provided autoValue.gsonProvided
+
+  // Stetho
+  compile stetho.stetho
+  compile stetho.networkHelper
+
+  // LeakCanary
+  debugCompile leakCanary
+  releaseCompile leakCanary
+  testCompile leakCanary
+
+  compile okhttp
+  compile gson
+  compile sqlBrite
+  compile timber
+  compile glide
+  compile materialValues
+  compile exoPlayer
+}
